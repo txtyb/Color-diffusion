@@ -17,14 +17,14 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(args)
 
-    enc_config, unet_config, colordiff_config = load_default_configs()
-    train_dl, val_dl = make_dataloaders(args.dataset, colordiff_config, num_workers=2, limit=35000)
+    colordiff_config, enc_config, unet_config = load_default_configs()
+    train_dl, val_dl = make_dataloaders(args.dataset, colordiff_config, num_workers=2, limit=30000)
     colordiff_config["sample"] = False
     colordiff_config["should_log"] = args.log
 
     #TODO remove 
     # args.ckpt = "/home/ec2-user/Color-diffusion/Color_diffusion_v2/23l96nt1/checkpoints/last.ckpt"
-    args.ckpt = "./checkpoints/last.ckpt"
+    # args.ckpt = "./checkpoints/last.ckpt"
 
     
     encoder = Encoder(**enc_config)
@@ -62,5 +62,6 @@ if __name__ == "__main__":
                         callbacks=[ckpt_callback],
                         profiler="simple" if args.log else None,
                         accumulate_grad_batches=colordiff_config["accumulate_grad_batches"],
+                        default_root_dir=colordiff_config["default_root_dir"],
                         )
     trainer.fit(model, train_dl, val_dl)
