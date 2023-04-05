@@ -50,7 +50,7 @@ if __name__ == "__main__":
         wandb_logger = WandbLogger(project="Color_diffusion_v2")
         wandb_logger.watch(unet)
         wandb_logger.experiment.config.update(colordiff_config)
-        wandb_logger.experiment.config.update(unet_config)
+        wandb_logger.experiment.config.update(unet_config, allow_val_change=True)
     ckpt_callback = ModelCheckpoint(every_n_train_steps=300, save_top_k=2, save_last=True, monitor="val_loss")
 
     trainer = pl.Trainer(max_epochs=colordiff_config["epochs"],
