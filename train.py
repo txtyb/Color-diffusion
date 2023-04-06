@@ -7,6 +7,7 @@ from utils import get_device, load_default_configs
 from pytorch_lightning.loggers import WandbLogger
 from denoising import Unet, Encoder
 from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.utilities import rank_zero_only
 
 if __name__ == "__main__":
     parser = ArgumentParser()
@@ -49,8 +50,9 @@ if __name__ == "__main__":
     if args.log:
         wandb_logger = WandbLogger(project="Color_diffusion_v2")
         wandb_logger.watch(unet)
-        wandb_logger.experiment.config.update(colordiff_config)
-        wandb_logger.experiment.config.update(unet_config, allow_val_change=True)
+        if rank_zero_only.rank == 0:
+            wandb_logger.experiment.config.update(colordiff_config)
+            wandb_logger.experiment.config.update(unet_config, allow_val_change=True)
     ckpt_callback = ModelCheckpoint(every_n_train_steps=300, save_top_k=2, save_last=True, monitor="val_loss")
 
     trainer = pl.Trainer(max_epochs=colordiff_config["epochs"],
