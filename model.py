@@ -117,6 +117,7 @@ class ColorDiffusion(pl.LightningModule):
             self.logger.log_image("samples", [rgb_imgs])
 
     def on_before_zero_grad(self, *args, **kwargs):
+        self.ema.to(self.device)
         self.ema.update()
 
     @torch.inference_mode()
