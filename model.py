@@ -159,7 +159,7 @@ class ColorDiffusion(pl.LightningModule):
         return images
 
     @torch.inference_mode()
-    def sample_plot_image(self, x_0, show=True, prog=False,
+    def sample_plot_image(self, x_0, show=False, prog=False,
                           use_ema=False, log=True, save_all=False):
         """
         Denoises a single image and displays a grid showing:
