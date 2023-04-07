@@ -49,7 +49,7 @@ class ColorDiffusion(pl.LightningModule):
                                            dynamic_threshold=dynamic_threshold)
         if sample is True and display_every is None:
             display_every = 1000
-        self.save_hyperparameters(ignore=['unet'])
+        self.save_hyperparameters(ignore=['unet', 'train_dl', 'val_dl'])
 
     def forward(self, x_noised, t, x_l):
         """
