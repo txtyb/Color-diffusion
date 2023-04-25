@@ -36,10 +36,10 @@ class ColorizationDataset(Dataset):
         if split == 'train':
             self.transforms = transforms.Compose([
                 transforms.RandomHorizontalFlip(),
-                transforms.ColorJitter(brightness=0.3,
-                                       contrast=0.1,
-                                       saturation=(1., 2.),
-                                       hue=0.05),
+                # transforms.ColorJitter(brightness=0.3,
+                #                        contrast=0.1,
+                #                        saturation=(1., 2.),
+                #                        hue=0.05),
                 self.resize
             ])
         elif split == 'val':
