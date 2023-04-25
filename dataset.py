@@ -32,7 +32,7 @@ def is_greyscale(im):
 class ColorizationDataset(Dataset):
     def __init__(self, paths, split='train', config=None):
         size = config["img_size"]
-        self.resize = transforms.Resize((size, size), Image.BICUBIC)
+        self.resize = transforms.Resize((size, size), Image.Resampling(1))
         if split == 'train':
             self.transforms = transforms.Compose([
                 transforms.RandomHorizontalFlip(),
